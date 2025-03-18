@@ -146,9 +146,10 @@ export function useTaskContainer() {
       onNewTaskChange: handlers.handleNewTaskChange,
       onAddTask: handlers.handleAddTask,
       onToggleTask: toggleTask,
-      onDeleteTask: deleteTask
+      onDeleteTask: deleteTask,
+      isLoading
     };
-  }, [values.selectedGroup, states.newTaskText[0], toggleTask, deleteTask]);
+  }, [values.selectedGroup, states.newTaskText, toggleTask, deleteTask, isLoading, handlers]);
   
   return {
     // Context data

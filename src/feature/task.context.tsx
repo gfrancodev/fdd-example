@@ -4,6 +4,7 @@ import React, {
   useMemo,
   useState,
   useCallback,
+  useEffect
 } from "react";
 import { useInject } from "@brushy/di";
 import { TOAST } from "../core";
@@ -26,10 +27,10 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
     currentStep: 'create-group',
     completed: []
   });
-  const [isInitialized, setIsInitialized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  useMemo(() => {
+  useEffect(() => {
     if (isInitialized) return;
 
     const initializeData = async () => {
@@ -51,7 +52,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
         if (onboardingState) {
           setOnboarding(onboardingState);
         }
-
+        
         setIsInitialized(true);
       } catch (error) {
         console.error("Erro ao inicializar dados:", error);

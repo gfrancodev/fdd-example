@@ -73,6 +73,7 @@ declare global {
         onAddTask: (e: React.FormEvent) => void;
         onToggleTask: (groupId: string, taskId: number) => void;
         onDeleteTask: (groupId: string, taskId: number) => void;
+        isLoading?: boolean;
       } & React.JSX.IntrinsicAttributes;
 
       type List = React.ComponentType<ListProps>;

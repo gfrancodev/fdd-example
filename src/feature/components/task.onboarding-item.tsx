@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp, Circle, CheckCircle, Plus, ListPlus } from "lucide-react";
+import { ChevronDown, ChevronRight, CheckCircle2 } from "lucide-react";
 
 const TaskOnboardingItem: Task.Component.OnboardingItem = ({
   step,
@@ -8,55 +8,56 @@ const TaskOnboardingItem: Task.Component.OnboardingItem = ({
   isOpen,
   isCompleted,
   onToggle,
-  onClick,
+  onClick
 }) => {
   return (
-    <div className="border-b border-[#edebe9] last:border-0">
+    <div className="mb-2">
       <div 
-        className={`flex items-center justify-between p-4 cursor-pointer ${isActive ? 'bg-[#f3f2f1]' : ''}`}
+        className={`flex items-start p-3 rounded-md cursor-pointer transition-colors duration-200
+        ${isActive 
+          ? 'bg-[#f0f8ff] text-[#0078d4]' 
+          : isCompleted 
+            ? 'hover:bg-[#f3f2f1] text-[#107c10]' 
+            : 'hover:bg-[#f3f2f1] text-[#605e5c]'}`}
         onClick={onToggle}
       >
-        <div className="flex items-center gap-3">
-          <div className="flex-shrink-0">
-            {isCompleted ? (
-              <CheckCircle className="h-5 w-5 text-[#0078d4]" />
-            ) : (
-              <Circle className="h-5 w-5 text-[#8a8886]" />
-            )}
-          </div>
-          <span className={`font-medium ${isCompleted ? 'text-[#0078d4]' : ''}`}>{title}</span>
+        <div className="flex-shrink-0 mr-3 mt-0.5">
+          {isCompleted ? (
+            <CheckCircle2 className="h-5 w-5 text-[#107c10]" />
+          ) : isActive ? (
+            <div className="h-5 w-5 rounded-full border-2 border-[#0078d4] flex items-center justify-center">
+              <div className="h-2 w-2 rounded-full bg-[#0078d4]"></div>
+            </div>
+          ) : (
+            <div className="h-5 w-5 rounded-full border-2 border-[#8a8886]"></div>
+          )}
         </div>
-        {isOpen ? (
-          <ChevronUp className="h-5 w-5 text-[#8a8886]" />
-        ) : (
-          <ChevronDown className="h-5 w-5 text-[#8a8886]" />
-        )}
+        <div className="flex-grow">
+          <div className="flex items-center justify-between">
+            <h3 className={`font-medium ${isActive ? 'text-[#0078d4]' : isCompleted ? 'text-[#107c10]' : 'text-[#323130]'}`}>
+              {title}
+            </h3>
+            <div className="transition-transform duration-200 transform">
+              {isOpen ? (
+                <ChevronDown className="h-5 w-5" />
+              ) : (
+                <ChevronRight className="h-5 w-5" />
+              )}
+            </div>
+          </div>
+        </div>
       </div>
       
       {isOpen && (
-        <div className="p-4 pt-0">
-          <p className="text-[#605e5c] mb-4 pl-8">{description}</p>
-          {step === 'create-group' && (
-            <div className="pl-8">
-              <button 
-                className="bg-[#0078d4] hover:bg-[#106ebe] text-white flex items-center gap-2 px-4 py-2 rounded-md"
-                onClick={onClick}
-              >
-                <Plus className="h-4 w-4" />
-                Criar novo grupo
-              </button>
-            </div>
-          )}
-          {step === 'add-task' && (
-            <div className="pl-8">
-              <button 
-                className="bg-[#0078d4] hover:bg-[#106ebe] text-white flex items-center gap-2 px-4 py-2 rounded-md"
-                onClick={onClick}
-              >
-                <ListPlus className="h-4 w-4" />
-                Adicionar tarefa de exemplo
-              </button>
-            </div>
+        <div className="pl-11 pr-3 pb-2 animate-slide-down">
+          <p className="text-[#605e5c] mb-3">{description}</p>
+          {isActive && !isCompleted && (
+            <button
+              onClick={onClick}
+              className="text-sm text-[#0078d4] hover:text-[#106ebe] hover:underline transition-colors duration-200"
+            >
+              Fazer agora
+            </button>
           )}
         </div>
       )}

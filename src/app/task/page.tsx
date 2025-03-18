@@ -44,6 +44,10 @@ export default function TaskPage() {
   const TaskCreator = useInjectComponent<Task.Component.GroupCreatorProps>(TASK_CREATOR)
   const TaskOnboarding = useInjectComponent<Task.Component.OnboardingProps>(TASK_ONBOARDING)
 
+  if (isLoading) {
+    return <TaskLoading />;
+  }
+
   return (
     <Suspense fallback={<TaskLoading />}>
       <div className="min-h-screen bg-[#f5f5f5] flex items-start justify-center p-4 md:p-6">

@@ -1,6 +1,7 @@
-import { Plus } from "lucide-react";
 import { useInjectComponent } from "@brushy/di";
 import { INPUT } from "../../core";
+import { Plus } from "lucide-react";
+import { useState } from "react";
 
 const TaskInput: Task.Component.Input = ({
   value,
@@ -8,24 +9,36 @@ const TaskInput: Task.Component.Input = ({
   onSubmit,
 }) => {
   const Input = useInjectComponent<Core.Component.InputProps>(INPUT);
+  const [isFocused, setIsFocused] = useState(false);
   
   return (
-    <form onSubmit={onSubmit} className="flex gap-2 p-4 border-b border-[#edebe9]">
-      <Input
-        type="text"
-        value={value}
-        onChange={onChange}
-        placeholder="Adicionar uma tarefa"
-        className="flex-grow border border-[#edebe9] rounded-md focus:outline-none focus:ring-1 focus:ring-[#0078d4]"
-      />
-      <button 
-        type="submit" 
-        className="inline-flex items-center justify-center h-10 px-4 py-2 bg-[#0078d4] hover:bg-[#106ebe] text-white rounded-md transition-colors"
-        aria-label="Adicionar tarefa"
+    <div className="p-4 border-b border-[#edebe9]">
+      <form 
+        onSubmit={onSubmit}
+        className={`flex items-center gap-2 p-2 rounded-md border ${
+          isFocused ? 'border-[#0078d4] shadow-sm' : 'border-[#edebe9]'
+        } transition-all duration-200`}
       >
-        <Plus className="h-5 w-5" />
-      </button>
-    </form>
+        <button 
+          type="submit" 
+          disabled={!value.trim()}
+          className={`flex-shrink-0 h-6 w-6 rounded-full flex items-center justify-center ${
+            value.trim() ? 'text-[#0078d4] hover:bg-[#f3f2f1]' : 'text-[#a19f9d]'
+          } transition-colors duration-200`}
+        >
+          <Plus className="h-5 w-5" />
+        </button>
+        <Input
+          type="text"
+          value={value}
+          onChange={onChange}
+          placeholder="Adicionar uma tarefa"
+          className="flex-grow border-0 focus:ring-0 p-0 text-[#323130] placeholder-[#a19f9d]"
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+        />
+      </form>
+    </div>
   );
 };
 
