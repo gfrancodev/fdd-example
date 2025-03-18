@@ -19,12 +19,16 @@ declare global {
 
     namespace Component {
       type Button = React.ComponentType<
-        ButtonHTMLAttributes<HTMLButtonElement>
-      > & {
-        children: React.ReactNode;
-      };
+        ButtonHTMLAttributes<HTMLButtonElement> & React.JSX.IntrinsicAttributes 
+      >;
 
-      type Input = React.ComponentType<InputHTMLAttributes<HTMLInputElement>>;
+      interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+        label?: string;
+        error?: string;
+      }
+      
+
+      type Input = React.ComponentType<InputProps> & React.JSX.IntrinsicAttributes;
     }
   }
 }

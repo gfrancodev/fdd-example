@@ -15,7 +15,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const taskService = useInject<Task.Service>(TASK_SERVICE);
-  const { notify } = useInject<Core.Toast.Hook>(TOAST);
+  const { notify } = useInject<Core.Toast.Hook>(TOAST);;
 
   const [tasks, setTasks] = useState<Task.Root[]>([]);
 

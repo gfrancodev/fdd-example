@@ -30,23 +30,31 @@ declare global {
     }
 
     namespace Component {
+      type ListItemValue = { id: number; completed: boolean }
 
       type ListProps = {
-        tasks: { id: number; completed: boolean }[];
+        tasks: ListItemValue[];
         onToggle: (id: number) => void;
         onRemove: (id: number) => void;
-        children: (task: { id: number; completed: boolean }) => JSX.Element;
-      }
+        children: (task: ListItemValue) => JSX.Element;
+      } & React.JSX.IntrinsicAttributes;
+
       type List = React.ComponentType<ListProps>
 
-      interface ListItemProps extends <Omit<ListProps, 'tasks' | 'children'>> {
-        id: number;
-        completed: boolean;
-      };
+      type ListItemProps = Omit<ListProps, 'tasks' | 'children'> & React.JSX.IntrinsicAttributes & ListItemValue;
 
       type ListItem = React.ComponentType<ListItemProps>;
+
+      type InputProps = {
+        taskText: string;
+        note: string;
+        handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+        handleNoteChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+        handleSubmit: (e: React.FormEvent) => void;
+      } & React.JSX.IntrinsicAttributes;
+      type Input = React.ComponentType<InputProps>;
     }
   }
 }
 
-export {};
+export { };

@@ -3,7 +3,7 @@ import { JSONStorage } from "@brushy/localstorage";
 
 export class TaskHttpService implements Task.Service {
   private storage = new JSONStorage("@tasks:async");
-  protected DEFAULT_STORAGE_OPTIONS = { pretty: true, ttl: 60, compress: true };
+  protected DEFAULT_STORAGE_OPTIONS = { pretty: true };
 
   async getAll(): Promise<Task.Root[]> {
     await delay(2000);

@@ -1,11 +1,4 @@
-import React, { InputHTMLAttributes } from "react";
-
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
-  error?: string;
-}
-
-const Input: React.FC<InputProps> = ({ label, error, ...props }) => {
+const Input: Core.Component.Input = ({ label, error, ...props }) => {
   return (
     <div className="input-container">
       {label && <label className="input-label">{label}</label>}

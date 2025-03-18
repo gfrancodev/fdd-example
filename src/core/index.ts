@@ -25,7 +25,9 @@ const core = new Container({
     },
     {
       provide: TOAST,
-      useValue: useSonner, // options (useSonner | useReactToastify)
+      useFactory: () => {
+        return useSonner();
+      }, // options (useSonner | useReactToastify)
     },
     {
       provide: TOAST_PROVIDER,
