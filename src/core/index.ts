@@ -1,9 +1,9 @@
 import { Container } from "@brushy/di";
 import { Toaster } from "sonner";
-import useSonner from "./hook/use-sonner.hook";
+import useSonner from "./hooks/use-sonner.hook";
 
 import { ToastContainer } from "react-toastify";
-import useReactToastify from "./hook/use-react-toastify.hook";
+import useReactToastify from "./hooks/use-react-toastify.hook";
 
 import Button from "./components/button";
 import Input from "./components/input";

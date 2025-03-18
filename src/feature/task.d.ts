@@ -6,55 +6,145 @@ declare global {
       completed: boolean;
     };
 
+    interface Group {
+      id: string;
+      name: string;
+      tasks: Task.Root[];
+    }
+
+    interface OnboardingStep {
+      step: 'create-group' | 'add-task' | 'complete-task' | 'filter-tasks' | 'share-group';
+      title: string;
+      description: string;
+    }
+
+    interface OnboardingState {
+      showOnboarding: boolean;
+      currentStep: string;
+      completed: string[];
+    }
+
     interface Service {
-      getAll(): Task.Root[] | Promise<Task.Root[]>;
-      getById(
-        id: number
-      ): Task.Root | undefined | Promise<Task.Root | undefined>;
-      add(task: Task.Root): Task.Root | Promise<Task.Root>;
-      update(
-        id: number,
-        updatedFields: Partial<Task.Root>
-      ): Task.Root | undefined | Promise<Task.Root | undefined>;
-      toggle(id: number): Task.Root[] | Promise<Task.Root[]>;
-      remove(id: number): Task.Root[] | Promise<Task.Root[]>;
+      getTaskGroups(): Group[] | Promise<Group[]>;
+      getTaskGroupById(id: string): Group | undefined | Promise<Group | undefined>;
+      createTaskGroup(name: string): Group | Promise<Group>;
+      deleteTaskGroup(id: string): boolean | Promise<boolean>;
+      addTask(groupId: string, text: string): Task.Root | Promise<Task.Root>;
+      toggleTask(groupId: string, taskId: number): Task.Root[] | Promise<Task.Root[]>;
+      deleteTask(groupId: string, taskId: number): Task.Root[] | Promise<Task.Root[]>;
+      selectTaskGroup(id: string): void | Promise<void>;
+      getSelectedTaskGroupId(): string | undefined | Promise<string | undefined>;
+      closeOnboarding(): void | Promise<void>;
+      resetOnboarding(): void | Promise<void>;
+      completeOnboardingStep(step: string): void | Promise<void>;
+      onboardingStorage?: any;
     }
 
     interface ContextProps {
-      tasks: Task.Root[];
-      addTask: (task: Task.Root) => void;
-      updateTask: (id: number, updatedFields: Partial<Task.Root>) => void;
-      toggleTask: (id: number) => void;
-      removeTask: (id: number) => void;
-      getTaskById: (id: number) => Task.Root | Promise<Task.Root> | undefined;
+      groups: Group[];
+      selectedGroupId: string | undefined;
+      onboarding: OnboardingState;
+      isLoading: boolean;
+      createTaskGroup: (name: string) => void;
+      deleteTaskGroup: (id: string) => void;
+      selectTaskGroup: (id: string) => void;
+      addTask: (groupId: string, text: string) => void;
+      toggleTask: (groupId: string, taskId: number) => void;
+      deleteTask: (groupId: string, taskId: number) => void;
+      closeOnboarding: () => void;
+      resetOnboarding: () => void;
+      completeOnboardingStep: (step: string) => void;
     }
 
     namespace Component {
-      type ListItemValue = { id: number; completed: boolean }
+      type TaskItemValue = { id: number; text: string; completed: boolean };
 
       type ListProps = {
-        tasks: ListItemValue[];
-        onToggle: (id: number) => void;
-        onRemove: (id: number) => void;
-        children: (task: ListItemValue) => JSX.Element;
+        groupId: string;
+        groupName: string;
+        tasks: Task.Root[];
+        pendingTasks: Task.Root[];
+        completedTasks: Task.Root[];
+        completedCount: number;
+        totalCount: number;
+        progressPercentage: number;
+        newTaskValue: string;
+        onNewTaskChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+        onAddTask: (e: React.FormEvent) => void;
+        onToggleTask: (groupId: string, taskId: number) => void;
+        onDeleteTask: (groupId: string, taskId: number) => void;
       } & React.JSX.IntrinsicAttributes;
 
-      type List = React.ComponentType<ListProps>
+      type List = React.ComponentType<ListProps>;
 
-      type ListItemProps = Omit<ListProps, 'tasks' | 'children'> & React.JSX.IntrinsicAttributes & ListItemValue;
+      type ListItemProps = {
+        task: TaskItemValue;
+        onToggle: (id: number) => void;
+        onDelete: (id: number) => void;
+      } & React.JSX.IntrinsicAttributes;
 
       type ListItem = React.ComponentType<ListItemProps>;
 
       type InputProps = {
-        taskText: string;
-        note: string;
-        handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-        handleNoteChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-        handleSubmit: (e: React.FormEvent) => void;
+        value: string;
+        onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+        onSubmit: (e: React.FormEvent) => void;
       } & React.JSX.IntrinsicAttributes;
+      
       type Input = React.ComponentType<InputProps>;
+      
+      type GroupSelectorProps = {
+        groups: Group[];
+        selectedGroupId: string | undefined;
+        onSelectGroup: (id: string) => void;
+        onDeleteGroup: (id: string) => void;
+        onCreateGroup: () => void;
+      } & React.JSX.IntrinsicAttributes;
+      
+      type GroupSelector = React.ComponentType<GroupSelectorProps>;
+      
+      type GroupCreatorProps = {
+        groupName: string;
+        onGroupNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+        onSubmit: (e: React.FormEvent) => void;
+        onClose: () => void;
+      } & React.JSX.IntrinsicAttributes;
+      
+      type GroupCreator = React.ComponentType<GroupCreatorProps>;
+      
+      type OnboardingProps = {
+        isVisible: boolean;
+        onboardingSteps: Array<{
+          step: string;
+          title: string;
+          description: string;
+        }>;
+        currentStep: string;
+        completedSteps: string[];
+        openSteps: string[];
+        onToggleStep: (step: string) => void;
+        onClose: () => void;
+        onCompleteStep: (step: string) => void;
+        onCreateGroup: () => void;
+        onAddSampleTask: () => void;
+      } & React.JSX.IntrinsicAttributes;
+      
+      type Onboarding = React.ComponentType<OnboardingProps>;
+
+      type OnboardingItemProps = {
+        step: string;
+        title: string;
+        description: string;
+        isActive: boolean;
+        isOpen: boolean;
+        isCompleted: boolean;
+        onToggle: () => void;
+        onClick: () => void;
+      } & React.JSX.IntrinsicAttributes;
+
+      type OnboardingItem = React.ComponentType<OnboardingItemProps>;
     }
   }
 }
 
-export { };
+export {};

@@ -1,4 +1,9 @@
 {
+    "files": [],
+    "references": [
+      { "path": "./tsconfig.app.json" },
+      { "path": "./tsconfig.node.json" }
+    ],
     "include": [
         "./src/**/*",
         "./src/core/@types/*",
@@ -8,17 +13,22 @@
         "strict": true,
         "moduleResolution": "node",
         "esModuleInterop": true,
-        "lib": [
-            "dom",
-            "es2015"
-        ],
         "typeRoots": [
             "node_modules/@types",
-            "./src/core/@types"     
-          ],
-        "jsx": "react-jsx",                
+            "./src/core/@types"
+        ],
+        "jsx": "react-jsx",
+        "baseUrl": ".",
         "paths": {
-            "@/*": ["./src/*"]
-          }
+            "@/*": [
+                "./src/*"
+            ]
+        },
+        "noImplicitAny": false,
+        "noUnusedParameters": false,
+        "skipLibCheck": true,
+        "allowJs": true,
+        "noUnusedLocals": false,
+        "strictNullChecks": false
     }
 }
