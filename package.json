@@ -1,11 +1,17 @@
 {
-  "name": "react-typescript",
+  "name": "task-fdd-brushy-di-typescript",
   "version": "1.0.0",
-  "description": "React and TypeScript example starter project",
+  "description": "Task management application with React and TypeScript using FDD architecture and dependency injection",
   "keywords": [
     "typescript",
     "react",
-    "starter"
+    "vite",
+    "tailwind",
+    "task-management",
+    "accessibility",
+    "feature-driven-design",
+    "dependency-injection",
+    "brushy-di"
   ],
   "type": "module",
   "dependencies": {
@@ -35,13 +41,15 @@
     "@types/react-dom": "18.2.15",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",
+    "prettier": "3.5.3",
     "tailwindcss": "^4.0.14",
     "typescript": "4.4.4"
   },
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write \"src/**/*.ts\""
   },
   "browserslist": [
     ">0.2%",
