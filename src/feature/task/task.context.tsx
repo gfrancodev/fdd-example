@@ -4,11 +4,12 @@ import React, {
   useMemo,
   useState,
   useCallback,
-  useEffect
+  useEffect,
 } from "react";
 import { useInject } from "@brushy/di";
-import { TOAST } from "../core";
+import { TOAST } from "../../core";
 import { TASK_SERVICE } from ".";
+import { useErrorNotification } from "@/core/hooks/use-error-notification";
 
 const TaskContext = createContext<Task.ContextProps | undefined>(undefined);
 
@@ -19,56 +20,52 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
     cachePromises: false,
   });
   const { notify } = useInject<Core.Toast.Hook>(TOAST);
+  const { handleError } = useErrorNotification();
 
   const [groups, setGroups] = useState<Task.Group[]>([]);
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(undefined);
   const [onboarding, setOnboarding] = useState<Task.OnboardingState>({
-    showOnboarding: true,
+    showOnboarding: false,
     currentStep: 'create-group',
-    completed: []
+    completed: [],
+    hasCompletedOnboarding: false
   });
   const [isLoading, setIsLoading] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  useEffect(() => {
+  const initializeData = useCallback(async () => {
     if (isInitialized) return;
 
-    const initializeData = async () => {
-      try {
-        setIsLoading(true);
-        
-        const fetchedGroups = await taskService.getTaskGroups();
-        setGroups(fetchedGroups);
+    try {
+      setIsLoading(true);
 
-        const selectedId = await taskService.getSelectedTaskGroupId();
-        if (selectedId) {
-          setSelectedGroupId(selectedId);
-        } else if (fetchedGroups.length > 0) {
-          setSelectedGroupId(fetchedGroups[0].id);
-          await taskService.selectTaskGroup(fetchedGroups[0].id);
-        }
+      const fetchedGroups = await taskService.getTaskGroups();
+      setGroups(fetchedGroups);
 
-        const onboardingState = await taskService.onboardingStorage?.getJSON("onboarding");
-        if (onboardingState) {
-          setOnboarding(onboardingState);
-        }
-        
-        setIsInitialized(true);
-      } catch (error) {
-        console.error("Erro ao inicializar dados:", error);
-        notify({
-          title: "Erro ao carregar dados",
-          description: "Ocorreu um erro ao inicializar a aplicação.",
-          status: "error",
-          isClosable: true,
-        });
-      } finally {
-        setIsLoading(false);
+      const selectedId = await taskService.getSelectedTaskGroupId();
+      if (selectedId) {
+        setSelectedGroupId(selectedId);
+      } else if (fetchedGroups.length > 0) {
+        setSelectedGroupId(fetchedGroups[0].id);
+        await taskService.selectTaskGroup(fetchedGroups[0].id);
       }
-    };
 
+      const onboardingState = await taskService.getOnboardingState();
+      if (onboardingState) {
+        setOnboarding(onboardingState);
+      }
+
+      setIsInitialized(true);
+    } catch (error) {
+      handleError(error, "Erro ao inicializar dados", "Ocorreu um erro ao inicializar a aplicação.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [taskService, handleError, isInitialized]);
+
+  useEffect(() => {
     initializeData();
-  }, [taskService, notify, isInitialized]);
+  }, [initializeData]);
 
   const createTaskGroup = useCallback(async (name: string) => {
     try {
@@ -88,15 +85,9 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
 
       return newGroup;
     } catch (error) {
-      console.error("Erro ao criar grupo:", error);
-      notify({
-        title: "Erro ao criar grupo",
-        description: "Ocorreu um erro ao criar o grupo.",
-        status: "error",
-        isClosable: true,
-      });
+      handleError(error, "Erro ao criar grupo", "Ocorreu um erro ao criar o grupo.");
     }
-  }, [taskService, groups.length, notify]);
+  }, [taskService, groups.length, notify, handleError]);
 
   const deleteTaskGroup = useCallback(async (id: string) => {
     try {
@@ -123,24 +114,18 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
         });
       }
     } catch (error) {
-      console.error("Erro ao excluir grupo:", error);
-      notify({
-        title: "Erro ao excluir grupo",
-        description: "Ocorreu um erro ao excluir o grupo.",
-        status: "error",
-        isClosable: true,
-      });
+      handleError(error, "Erro ao excluir grupo", "Ocorreu um erro ao excluir o grupo.");
     }
-  }, [taskService, groups, selectedGroupId, notify]);
+  }, [taskService, groups, selectedGroupId, notify, handleError]);
 
   const selectTaskGroup = useCallback(async (id: string) => {
     try {
       await taskService.selectTaskGroup(id);
       setSelectedGroupId(id);
     } catch (error) {
-      console.error("Erro ao selecionar grupo:", error);
+      handleError(error, "Erro ao selecionar grupo", "Ocorreu um erro ao selecionar o grupo.");
     }
-  }, [taskService]);
+  }, [taskService, handleError]);
 
   const addTask = useCallback(async (groupId: string, text: string) => {
     try {
@@ -154,15 +139,9 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
 
       return newTask;
     } catch (error) {
-      console.error("Erro ao adicionar tarefa:", error);
-      notify({
-        title: "Erro ao adicionar tarefa",
-        description: "Ocorreu um erro ao adicionar a tarefa.",
-        status: "error",
-        isClosable: true,
-      });
+      handleError(error, "Erro ao adicionar tarefa", "Ocorreu um erro ao adicionar a tarefa.");
     }
-  }, [taskService, notify]);
+  }, [taskService, handleError]);
 
   const toggleTask = useCallback(async (groupId: string, taskId: number) => {
     try {
@@ -174,15 +153,9 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
           : group
       ));
     } catch (error) {
-      console.error("Erro ao alternar estado da tarefa:", error);
-      notify({
-        title: "Erro ao atualizar tarefa",
-        description: "Ocorreu um erro ao atualizar o estado da tarefa.",
-        status: "error",
-        isClosable: true,
-      });
+      handleError(error, "Erro ao atualizar tarefa", "Ocorreu um erro ao atualizar a tarefa.");
     }
-  }, [taskService, notify]);
+  }, [taskService, handleError]);
 
   const deleteTask = useCallback(async (groupId: string, taskId: number) => {
     try {
@@ -194,61 +167,50 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
           : group
       ));
     } catch (error) {
-      console.error("Erro ao excluir tarefa:", error);
-      notify({
-        title: "Erro ao excluir tarefa",
-        description: "Ocorreu um erro ao excluir a tarefa.",
-        status: "error",
-        isClosable: true,
-      });
+      handleError(error, "Erro ao excluir tarefa", "Ocorreu um erro ao excluir a tarefa.");
     }
-  }, [taskService, notify]);
+  }, [taskService, handleError]);
 
   const closeOnboarding = useCallback(async () => {
     try {
       await taskService.closeOnboarding();
       setOnboarding(prev => ({ ...prev, showOnboarding: false }));
     } catch (error) {
-      console.error("Erro ao fechar onboarding:", error);
+      handleError(error, "Erro ao fechar tutorial", "Ocorreu um erro ao fechar o tutorial.");
     }
-  }, [taskService]);
+  }, [taskService, handleError]);
 
   const resetOnboarding = useCallback(async () => {
     try {
       await taskService.resetOnboarding();
-      setOnboarding({
-        showOnboarding: true,
-        currentStep: 'create-group',
-        completed: []
-      });
+      const onboardingState = await taskService.getOnboardingState();
+      setOnboarding(onboardingState);
     } catch (error) {
-      console.error("Erro ao resetar onboarding:", error);
+      handleError(error, "Erro ao reiniciar tutorial", "Ocorreu um erro ao reiniciar o tutorial.");
     }
-  }, [taskService]);
+  }, [taskService, handleError]);
 
   const completeOnboardingStep = useCallback(async (step: string) => {
     try {
       await taskService.completeOnboardingStep(step);
-
-      const steps = ['create-group', 'add-task', 'complete-task', 'organize-tasks', 'create-more-groups'];
-      const currentIndex = steps.indexOf(step);
-      let nextStep = step;
-
-      if (currentIndex < steps.length - 1) {
-        nextStep = steps[currentIndex + 1];
-      }
-
-      setOnboarding(prev => ({
-        ...prev,
-        currentStep: nextStep,
-        completed: [...prev.completed, step],
-      }));
+      const onboardingState = await taskService.getOnboardingState();
+      setOnboarding(onboardingState);
     } catch (error) {
-      console.error("Erro ao completar passo do onboarding:", error);
+      handleError(error, "Erro ao atualizar tutorial", "Ocorreu um erro ao atualizar o tutorial.");
     }
-  }, [taskService]);
+  }, [taskService, handleError]);
 
-  const contextValue = useMemo(() => ({
+  const showOnboarding = useCallback(async () => {
+    try {
+      await taskService.showOnboarding();
+      const onboardingState = await taskService.getOnboardingState();
+      setOnboarding(onboardingState);
+    } catch (error) {
+      handleError(error, "Erro ao mostrar tutorial", "Ocorreu um erro ao mostrar o tutorial.");
+    }
+  }, [taskService, handleError]);
+
+  const value = useMemo(() => ({
     groups,
     selectedGroupId,
     onboarding,
@@ -262,6 +224,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
     closeOnboarding,
     resetOnboarding,
     completeOnboardingStep,
+    showOnboarding
   }), [
     groups,
     selectedGroupId,
@@ -276,10 +239,11 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
     closeOnboarding,
     resetOnboarding,
     completeOnboardingStep,
+    showOnboarding
   ]);
 
   return (
-    <TaskContext.Provider value={contextValue}>
+    <TaskContext.Provider value={value}>
       {children}
     </TaskContext.Provider>
   );
@@ -288,7 +252,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
 export const useTaskContext = () => {
   const context = useContext(TaskContext);
   if (!context) {
-    throw new Error("useTaskContext deve ser usado dentro de um TaskProvider");
+    throw new Error("useTaskContext must be used within a TaskProvider");
   }
   return context;
 }; 

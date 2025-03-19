@@ -1,29 +1,37 @@
-import { Sun } from "lucide-react";
-import TaskSelectorSkeleton from "@/feature/components/skeletons/task-selector-skeleton";
-import TaskListSkeleton from "@/feature/components/skeletons/task-list-skeleton";
+import { useInjectComponent } from "@brushy/di";
+import { 
+  HEADER, 
+  LAYOUT, 
+  TASK_GRID, 
+  LOADING_EFFECT, 
+  LOADING_BUTTON_SKELETON 
+} from "@/core";
+import {
+  TASK_LIST_SKELETON,
+  TASK_SELECTOR_SKELETON
+} from "@/feature/task/index";
 
 export default function TaskLoading() {
+  const Header = useInjectComponent<Core.Component.HeaderProps>(HEADER);
+  const Layout = useInjectComponent<Core.Component.LayoutProps>(LAYOUT);
+  const TaskGrid = useInjectComponent<Core.Component.TaskGridProps>(TASK_GRID);
+  const LoadingEffect = useInjectComponent<Core.Component.LoadingEffectProps>(LOADING_EFFECT);
+  const LoadingButtonSkeleton = useInjectComponent<Core.Component.LoadingButtonSkeletonProps>(LOADING_BUTTON_SKELETON);
+  const TaskSelectorSkeleton = useInjectComponent<Task.Component.SelectorSkeletonProps>(TASK_SELECTOR_SKELETON);
+  const TaskListSkeleton = useInjectComponent<Task.Component.ListSkeletonProps>(TASK_LIST_SKELETON);
+
   return (
-    <div className="min-h-screen bg-[#f5f5f5] flex items-start justify-center p-4 md:p-6">
-      <div className="w-full max-w-4xl">
-        <header className="flex justify-between items-center mb-6">
-          <div className="flex items-center gap-2">
-            <Sun className="h-6 w-6 text-[#0078d4]" />
-            <h1 className="text-2xl font-bold text-[#323130]">Minhas Tarefas</h1>
-          </div>
-          <div className="h-9 w-24 bg-gray-200 rounded-md animate-pulse"></div>
-        </header>
-        
-        <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-4 md:gap-6">
-          <div className="bg-white rounded-xl shadow-sm p-4 h-fit">
-            <TaskSelectorSkeleton />
-          </div>
-          
-          <div>
-            <TaskListSkeleton />
-          </div>
-        </div>
-      </div>
-    </div>
+    <Layout>
+      <Header 
+        title="Minhas Tarefas" 
+        rightContent={<LoadingButtonSkeleton />} 
+      />
+      <LoadingEffect>
+        <TaskGrid
+          sidebarContent={<TaskSelectorSkeleton />}
+          mainContent={<TaskListSkeleton />}
+        />
+      </LoadingEffect>
+    </Layout>
   );
 }
