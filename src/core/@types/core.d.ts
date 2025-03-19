@@ -18,59 +18,62 @@ declare global {
     }
 
     namespace Component {
-      type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & React.JSX.IntrinsicAttributes;
+      type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
+        React.JSX.IntrinsicAttributes;
       type Button = React.ComponentType<ButtonProps>;
 
-      interface InputProps extends InputHTMLAttributes<HTMLInputElement>, React.JSX.IntrinsicAttributes {
+      interface InputProps
+        extends InputHTMLAttributes<HTMLInputElement>,
+          React.JSX.IntrinsicAttributes {
         label?: string;
         error?: string;
       }
-      
+
       type Input = React.ComponentType<InputProps>;
 
       type HeaderProps = {
         title: string;
         rightContent?: React.ReactNode;
       } & React.JSX.IntrinsicAttributes;
-      
+
       type Header = React.ComponentType<HeaderProps>;
 
       type LayoutProps = {
         children: React.ReactNode;
       } & React.JSX.IntrinsicAttributes;
-      
+
       type Layout = React.ComponentType<LayoutProps>;
 
       type EmptyStateProps = {
         message: string;
         action?: React.ReactNode;
       } & React.JSX.IntrinsicAttributes;
-      
+
       type EmptyState = React.ComponentType<EmptyStateProps>;
-      
+
       type TaskGridProps = {
         sidebarContent: React.ReactNode;
         mainContent: React.ReactNode;
       } & React.JSX.IntrinsicAttributes;
-      
+
       type TaskGrid = React.ComponentType<TaskGridProps>;
-      
+
       type HelpButtonProps = {
         onClick: () => void;
       } & React.JSX.IntrinsicAttributes;
-      
+
       type HelpButton = React.ComponentType<HelpButtonProps>;
-      
+
       type CreateGroupButtonProps = {
         onClick: () => void;
       } & React.JSX.IntrinsicAttributes;
-      
+
       type CreateGroupButton = React.ComponentType<CreateGroupButtonProps>;
-      
+
       type LoadingPlaceholderProps = {
         className?: string;
       } & React.JSX.IntrinsicAttributes;
-      
+
       type LoadingPlaceholder = React.ComponentType<LoadingPlaceholderProps>;
 
       type LoadingEffectProps = {
@@ -81,7 +84,8 @@ declare global {
 
       type LoadingButtonSkeletonProps = {} & React.JSX.IntrinsicAttributes;
 
-      type LoadingButtonSkeleton = React.ComponentType<LoadingButtonSkeletonProps>;
+      type LoadingButtonSkeleton =
+        React.ComponentType<LoadingButtonSkeletonProps>;
     }
   }
 }

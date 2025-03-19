@@ -9,9 +9,10 @@ const HelpButton: React.FC<Core.Component.HelpButtonProps> = ({ onClick }) => {
     <Button
       onClick={onClick}
       className="flex items-center gap-2 bg-transparent hover:bg-(--task-secondary) px-4 py-2 rounded-md transition-colors"
+      aria-label="Help"
     >
       <Info className="h-4 w-4 text-(--task-primary)" />
-      <span className="text-(--task-primary)">Ajuda</span>
+      <span className="text-(--task-primary)">Help</span>
     </Button>
   );
 };

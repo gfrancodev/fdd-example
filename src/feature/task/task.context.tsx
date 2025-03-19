@@ -57,7 +57,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
 
       setIsInitialized(true);
     } catch (error) {
-      handleError(error, "Erro ao inicializar dados", "Ocorreu um erro ao inicializar a aplicação.");
+      handleError(error, "Error initializing data", "An error occurred while initializing the application.");
     } finally {
       setIsLoading(false);
     }
@@ -77,15 +77,15 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
       }
 
       notify({
-        title: "Grupo criado",
-        description: `O grupo "${name}" foi criado com sucesso.`,
+        title: "Group created",
+        description: `The group "${name}" was successfully created.`,
         status: "success",
         isClosable: true,
       });
 
       return newGroup;
     } catch (error) {
-      handleError(error, "Erro ao criar grupo", "Ocorreu um erro ao criar o grupo.");
+      handleError(error, "Error creating group", "An error occurred while creating the group.");
     }
   }, [taskService, groups.length, notify, handleError]);
 
@@ -107,14 +107,14 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
         }
 
         notify({
-          title: "Grupo excluído",
-          description: "O grupo foi excluído com sucesso.",
+          title: "Group deleted",
+          description: "The group was successfully deleted.",
           status: "success",
           isClosable: true,
         });
       }
     } catch (error) {
-      handleError(error, "Erro ao excluir grupo", "Ocorreu um erro ao excluir o grupo.");
+      handleError(error, "Error deleting group", "An error occurred while deleting the group.");
     }
   }, [taskService, groups, selectedGroupId, notify, handleError]);
 
@@ -123,7 +123,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
       await taskService.selectTaskGroup(id);
       setSelectedGroupId(id);
     } catch (error) {
-      handleError(error, "Erro ao selecionar grupo", "Ocorreu um erro ao selecionar o grupo.");
+      handleError(error, "Error selecting group", "An error occurred while selecting the group.");
     }
   }, [taskService, handleError]);
 
@@ -139,7 +139,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
 
       return newTask;
     } catch (error) {
-      handleError(error, "Erro ao adicionar tarefa", "Ocorreu um erro ao adicionar a tarefa.");
+      handleError(error, "Error adding task", "An error occurred while adding the task.");
     }
   }, [taskService, handleError]);
 
@@ -153,7 +153,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
           : group
       ));
     } catch (error) {
-      handleError(error, "Erro ao atualizar tarefa", "Ocorreu um erro ao atualizar a tarefa.");
+      handleError(error, "Error updating task", "An error occurred while updating the task.");
     }
   }, [taskService, handleError]);
 
@@ -167,7 +167,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
           : group
       ));
     } catch (error) {
-      handleError(error, "Erro ao excluir tarefa", "Ocorreu um erro ao excluir a tarefa.");
+      handleError(error, "Error deleting task", "An error occurred while deleting the task.");
     }
   }, [taskService, handleError]);
 
@@ -176,7 +176,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
       await taskService.closeOnboarding();
       setOnboarding(prev => ({ ...prev, showOnboarding: false }));
     } catch (error) {
-      handleError(error, "Erro ao fechar tutorial", "Ocorreu um erro ao fechar o tutorial.");
+      handleError(error, "Error closing tutorial", "An error occurred while closing the tutorial.");
     }
   }, [taskService, handleError]);
 
@@ -186,7 +186,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
       const onboardingState = await taskService.getOnboardingState();
       setOnboarding(onboardingState);
     } catch (error) {
-      handleError(error, "Erro ao reiniciar tutorial", "Ocorreu um erro ao reiniciar o tutorial.");
+      handleError(error, "Error resetting tutorial", "An error occurred while resetting the tutorial.");
     }
   }, [taskService, handleError]);
 
@@ -196,7 +196,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
       const onboardingState = await taskService.getOnboardingState();
       setOnboarding(onboardingState);
     } catch (error) {
-      handleError(error, "Erro ao atualizar tutorial", "Ocorreu um erro ao atualizar o tutorial.");
+      handleError(error, "Error updating tutorial", "An error occurred while updating the tutorial.");
     }
   }, [taskService, handleError]);
 
@@ -206,7 +206,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
       const onboardingState = await taskService.getOnboardingState();
       setOnboarding(onboardingState);
     } catch (error) {
-      handleError(error, "Erro ao mostrar tutorial", "Ocorreu um erro ao mostrar o tutorial.");
+      handleError(error, "Error showing tutorial", "An error occurred while showing the tutorial.");
     }
   }, [taskService, handleError]);
 

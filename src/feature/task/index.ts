@@ -6,10 +6,13 @@ import TaskSelector from "./components/task.selector";
 import TaskCreator from "./components/task.creator";
 import TaskOnboarding from "./components/task.onboarding";
 import TaskOnboardingItem from "./components/task.onboarding-item";
-import TaskListSkeleton from "./components/skeletons/task-list-skeleton";
-import TaskSelectorSkeleton from "./components/skeletons/task-selector-skeleton";
+import TaskListSkeleton from "./components/skeletons/task.list.skeleton";
+import TaskSelectorSkeleton from "./components/skeletons/task.selector.skeleton";
 import { TaskHttpService } from "./services/task-http.service";
-import { LOADING_EFFECT } from "@/core";
+import TaskGrid from "./components/task.grid";
+
+// Exportação explícita dos hooks
+export * from "./hooks";
 
 export const TASK_SERVICE = Symbol("TASK_SERVICE");
 export const TASK_INPUT = Symbol("TASK_INPUT");
@@ -21,6 +24,7 @@ export const TASK_ONBOARDING = Symbol("TASK_ONBOARDING");
 export const TASK_ONBOARDING_ITEM = Symbol("TASK_ONBOARDING_ITEM");
 export const TASK_LIST_SKELETON = Symbol("TASK_LIST_SKELETON");
 export const TASK_SELECTOR_SKELETON = Symbol("TASK_SELECTOR_SKELETON");
+export const TASK_GRID = Symbol("TASK_GRID");
 
 const task = new Container({
   providers: [
@@ -55,6 +59,10 @@ const task = new Container({
     {
       provide: TASK_ONBOARDING_ITEM,
       useValue: TaskOnboardingItem,
+    },
+    {
+      provide: TASK_GRID,
+      useValue: TaskGrid,
     },
     {
       provide: TASK_LIST_SKELETON,

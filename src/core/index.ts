@@ -1,18 +1,16 @@
 import { Container } from "@brushy/di";
 import { Toaster } from "sonner";
 import useSonner from "./hooks/use-sonner";
-
 import Button from "./components/button";
 import Input from "./components/input";
 import Header from "./components/header";
 import Layout from "./components/layout";
 import EmptyState from "./components/empty-state";
-import TaskGrid from "./components/task-grid";
 import HelpButton from "./components/help-button";
 import CreateGroupButton from "./components/create-group-button";
-import LoadingPlaceholder from "./components/skeletons/loading-placeholder";
-import LoadingButtonSkeleton from "./components/skeletons/loading-button-skeleton";
-import LoadingEffect from "./components/skeletons/loading-effect";
+import LoadingPlaceholder from "./components/skeletons/loading-placeholder.skeleton";
+import LoadingButtonSkeleton from "./components/skeletons/loading-button.skeleton";
+import LoadingEffect from "./components/skeletons/loading-effect.skeleton";
 
 export const TOAST_PROVIDER = Symbol("TOAST_PROVIDER");
 export const TOAST = Symbol("TOAST");
@@ -21,7 +19,6 @@ export const INPUT = Symbol("INPUT");
 export const HEADER = Symbol("HEADER");
 export const LAYOUT = Symbol("LAYOUT");
 export const EMPTY_STATE = Symbol("EMPTY_STATE");
-export const TASK_GRID = Symbol("TASK_GRID");
 export const HELP_BUTTON = Symbol("HELP_BUTTON");
 export const CREATE_GROUP_BUTTON = Symbol("CREATE_GROUP_BUTTON");
 export const LOADING_PLACEHOLDER = Symbol("LOADING_PLACEHOLDER");
@@ -62,10 +59,6 @@ const core = new Container({
       useValue: EmptyState,
     },
     {
-      provide: TASK_GRID,
-      useValue: TaskGrid,
-    },
-    {
       provide: HELP_BUTTON,
       useValue: HelpButton,
     },
@@ -84,7 +77,7 @@ const core = new Container({
     {
       provide: LOADING_EFFECT,
       useValue: LoadingEffect,
-    }
+    },
   ],
 });
 

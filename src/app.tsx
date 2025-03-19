@@ -2,7 +2,7 @@ import { BrushyDIProvider, Container, useInject } from "@brushy/di";
 import core, { TOAST_PROVIDER } from "./core";
 import task from "./feature/task";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import TaskPage from "./app/task/page";
+import TaskPage from "./app/page";
 import { TaskProvider } from "./feature/task/task.context";
 
 const container = new Container({

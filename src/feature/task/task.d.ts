@@ -13,7 +13,12 @@ declare global {
     }
 
     interface OnboardingStep {
-      step: 'create-group' | 'add-task' | 'complete-task' | 'filter-tasks' | 'share-group';
+      step:
+        | "create-group"
+        | "add-task"
+        | "complete-task"
+        | "filter-tasks"
+        | "share-group";
       title: string;
       description: string;
     }
@@ -27,14 +32,25 @@ declare global {
 
     interface Service {
       getTaskGroups(): Group[] | Promise<Group[]>;
-      getTaskGroupById(id: string): Group | undefined | Promise<Group | undefined>;
+      getTaskGroupById(
+        id: string,
+      ): Group | undefined | Promise<Group | undefined>;
       createTaskGroup(name: string): Group | Promise<Group>;
       deleteTaskGroup(id: string): boolean | Promise<boolean>;
       addTask(groupId: string, text: string): Task.Root | Promise<Task.Root>;
-      toggleTask(groupId: string, taskId: number): Task.Root[] | Promise<Task.Root[]>;
-      deleteTask(groupId: string, taskId: number): Task.Root[] | Promise<Task.Root[]>;
+      toggleTask(
+        groupId: string,
+        taskId: number,
+      ): Task.Root[] | Promise<Task.Root[]>;
+      deleteTask(
+        groupId: string,
+        taskId: number,
+      ): Task.Root[] | Promise<Task.Root[]>;
       selectTaskGroup(id: string): void | Promise<void>;
-      getSelectedTaskGroupId(): string | undefined | Promise<string | undefined>;
+      getSelectedTaskGroupId():
+        | string
+        | undefined
+        | Promise<string | undefined>;
       closeOnboarding(): void | Promise<void>;
       resetOnboarding(): void | Promise<void>;
       completeOnboardingStep(step: string): void | Promise<void>;
@@ -110,9 +126,9 @@ declare global {
         onFocus: () => void;
         onBlur: () => void;
       } & React.JSX.IntrinsicAttributes;
-      
+
       type Input = React.ComponentType<InputProps>;
-      
+
       type GroupSelectorProps = {
         groups: Group[];
         selectedGroupId: string | undefined;
@@ -124,9 +140,9 @@ declare global {
         onGroupMouseEnter: (id: string) => void;
         onGroupMouseLeave: () => void;
       } & React.JSX.IntrinsicAttributes;
-      
+
       type GroupSelector = React.ComponentType<GroupSelectorProps>;
-      
+
       type GroupCreatorProps = {
         groupName: string;
         onGroupNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -135,15 +151,15 @@ declare global {
         isSubmitEnabled: boolean;
         onKeyDown: (e: React.KeyboardEvent) => void;
       } & React.JSX.IntrinsicAttributes;
-      
+
       type GroupCreator = React.ComponentType<GroupCreatorProps>;
-      
+
       type OnboardingStep = {
         step: string;
         title: string;
         description: string;
-      }
-      
+      };
+
       type OnboardingProps = {
         isVisible: boolean;
         onboardingSteps: OnboardingStep[];
@@ -157,7 +173,7 @@ declare global {
         onAddSampleTask: () => void;
         onKeyDown: (e: React.KeyboardEvent) => void;
       } & React.JSX.IntrinsicAttributes;
-      
+
       type Onboarding = React.ComponentType<OnboardingProps>;
 
       type OnboardingItemProps = {

@@ -14,19 +14,19 @@ const TaskSelector: Task.Component.GroupSelector = ({
   return (
     <div className="mb-2">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-medium text-(--task-text-primary)">Meus grupos</h2>
+        <h2 className="text-lg font-medium text-(--task-text-primary)">My Groups</h2>
         <button 
           onClick={onCreateGroup}
           className="h-8 w-8 rounded-md flex items-center justify-center text-(--task-primary) hover:bg-(--task-secondary) transition-colors duration-300"
-          aria-label="Criar novo grupo"
+          aria-label="Create new group"
         >
-          <Plus className="h-5 w-5" />
+          <Plus className="h-5 w-5" aria-hidden="true" />
         </button>
       </div>
-      <div className="space-y-1">
+      <div className="space-y-1" role="list" aria-label="Task groups">
         {groups.length === 0 ? (
-          <div className="text-(--task-text-secondary) text-sm p-2">
-            Nenhum grupo criado ainda.
+          <div className="text-(--task-text-secondary) text-sm p-2" role="listitem">
+            No groups created yet.
           </div>
         ) : (
           groups.map((group) => (
@@ -40,6 +40,9 @@ const TaskSelector: Task.Component.GroupSelector = ({
               onClick={() => onSelectGroup(group.id)}
               onMouseEnter={() => onGroupMouseEnter(group.id)}
               onMouseLeave={() => onGroupMouseLeave()}
+              role="listitem"
+              aria-selected={selectedGroupId === group.id}
+              aria-label={`${group.name} group with ${group.tasks.length} tasks`}
             >
               <div className="flex items-center gap-2 flex-grow overflow-hidden">
                 <div 
@@ -64,8 +67,8 @@ const TaskSelector: Task.Component.GroupSelector = ({
                       onDeleteGroup(group.id);
                     }}
                     className="h-8 w-8 rounded-md flex items-center justify-center text-(--task-text-placeholder) 
-                    hover:text-(--task-error) hover:bg-(--task-error/10) transition-all duration-300"
-                    aria-label="Excluir grupo"
+                    hover:text-(--task-error) hover:bg-(--task-error/10) transition-all duration-300 cursor-pointer"
+                    aria-label={`Delete group ${group.name}`}
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>

@@ -9,7 +9,7 @@ const CreateGroupButton: React.FC<Core.Component.CreateGroupButtonProps> = ({ on
       className="bg-(--task-primary) hover:bg-(--task-primary-hover) text-white transition-colors px-4 py-2 rounded-md"
       onClick={onClick}
     >
-      Criar meu primeiro grupo
+      Create my first group
     </Button>
   );
 };

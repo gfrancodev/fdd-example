@@ -51,14 +51,14 @@ const TaskList: Task.Component.List = ({
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-medium text-(--task-text-primary) animate-task-fade-in">{groupName}</h2>
           {totalCount > 0 && (
-            <span className="text-(--task-text-secondary) text-sm animate-task-fade-in">
-              {completedCount} de {totalCount} concluídas
+            <span className="text-(--task-text-secondary) text-sm animate-task-fade-in" aria-label={`${completedCount} of ${totalCount} tasks completed`}>
+              {completedCount} of {totalCount} completed
             </span>
           )}
         </div>
         
         {totalCount > 0 && (
-          <div className="mt-3 h-2 bg-(--task-surface) rounded-full overflow-hidden animate-task-slide-down">
+          <div className="mt-3 h-2 bg-(--task-surface) rounded-full overflow-hidden animate-task-slide-down" role="progressbar" aria-valuenow={progressPercentage} aria-valuemin={0} aria-valuemax={100}>
             <div 
               className="h-full bg-(--task-primary) transition-all duration-500 ease-out animate-task-fade-in"
               style={{ width: `${progressPercentage}%` }}
@@ -102,7 +102,7 @@ const TaskList: Task.Component.List = ({
             <div className="animate-task-fade-in">
               <div className="text-sm font-medium text-(--task-text-secondary) mt-4 mb-2 px-3 flex items-center gap-2 animate-task-slide-down">
                 <Check className="h-4 w-4 animate-task-fade-in" />
-                Concluídos ({completedTasks.length})
+                Completed ({completedTasks.length})
               </div>
               <div className="space-y-1 animate-task-fade-in">
                 {completedTasks.map(task => (
@@ -124,7 +124,7 @@ const TaskList: Task.Component.List = ({
           {tasks.length === 0 && (
             <div className="text-center py-10 text-(--task-text-secondary) animate-task-fade-in">
               <CalendarClock className="h-12 w-12 mx-auto mb-2 text-(--task-text-disabled) animate-task-fade-in" />
-              <p className="animate-task-fade-in">Nenhuma tarefa adicionada ainda.</p>
+              <p className="animate-task-fade-in">No tasks added yet.</p>
             </div>
           )}
         </div>

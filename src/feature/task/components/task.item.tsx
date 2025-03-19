@@ -17,6 +17,9 @@ const TaskItem: Task.Component.ListItem = ({
       transition-all duration-200 ${task.completed ? 'bg-(--task-secondary)' : ''}`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      role="listitem"
+      aria-label={`Task: ${task.text}`}
+      aria-checked={task.completed}
     >
       <div className="flex items-center gap-3 w-full">
         <button
@@ -26,6 +29,7 @@ const TaskItem: Task.Component.ListItem = ({
             ? 'bg-(--task-primary) border-(--task-primary) text-white' 
             : 'border-(--task-text-disabled) hover:border-(--task-primary)'} 
           transition-colors duration-200 cursor-pointer`}
+          aria-label={task.completed ? "Mark as not completed" : "Mark as completed"}
         >
           {task.completed && <Check className="h-3 w-3 animate-task-check" />}
         </button>
@@ -41,7 +45,7 @@ const TaskItem: Task.Component.ListItem = ({
         className={`h-8 w-8 rounded-md flex items-center justify-center text-(--task-text-placeholder) 
         hover:text-(--task-error) hover:bg-(--task-error/10) ${isHovered ? 'opacity-100 animate-task-fade-in' : 'opacity-0'} 
         transition-all duration-200 cursor-pointer`}
-        aria-label="Excluir tarefa"
+        aria-label="Delete task"
       >
         <Trash2 className="h-4 w-4 animate-task-trash" />
       </button>

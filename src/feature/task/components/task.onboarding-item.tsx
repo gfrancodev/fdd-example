@@ -20,6 +20,10 @@ const TaskOnboardingItem: Task.Component.OnboardingItem = ({
             ? 'hover:bg-(--task-secondary) text-(--task-success)' 
             : 'hover:bg-(--task-secondary) text-(--task-text-secondary)'}`}
         onClick={onToggle}
+        role="button"
+        aria-expanded={isOpen}
+        aria-current={isActive ? 'step' : undefined}
+        aria-label={`${title} - ${isCompleted ? 'Completed' : isActive ? 'Current step' : 'Pending step'}`}
       >
         <div className="flex-shrink-0 mr-3 mt-0.5 transition-transform duration-300 ease-in-out">
           {isCompleted ? (
@@ -55,8 +59,9 @@ const TaskOnboardingItem: Task.Component.OnboardingItem = ({
             <button
               onClick={onClick}
               className="text-sm text-(--task-primary) hover:text-(--task-primary-hover) hover:underline transition-all duration-300 ease-in-out transform hover:translate-x-1"
+              aria-label={`Complete step: ${title}`}
             >
-              Fazer agora
+              Do it now
             </button>
           )}
         </div>

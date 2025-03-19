@@ -28,17 +28,22 @@ const TaskOnboarding: Task.Component.Onboarding = ({
       className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-task-fade-in transition-opacity duration-300 ease-in-out"
       onClick={(e) => e.target === e.currentTarget && onClose()}
       onKeyDown={onKeyDown}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="onboarding-title"
+      aria-describedby="onboarding-description"
     >
       <div 
         className="bg-(--task-background) rounded-lg shadow-md max-w-md w-full p-6 animate-task-scale-in transition-all duration-300 ease-in-out"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-(--task-text-primary) animate-task-slide-in">
-            {allStepsCompleted ? "Tutorial completo!" : "Primeiros passos"}
+          <h2 id="onboarding-title" className="text-xl font-semibold text-(--task-text-primary) animate-task-slide-in">
+            {allStepsCompleted ? "Tutorial Complete!" : "First Steps"}
           </h2>
           <button 
             onClick={onClose}
+            aria-label="Close onboarding"
             className="h-8 w-8 rounded-md flex items-center justify-center text-(--task-text-secondary) hover:bg-(--task-secondary) transition-all duration-300 ease-in-out hover:rotate-90 cursor-pointer"
           >
             <X className="h-5 w-5" />
@@ -46,10 +51,10 @@ const TaskOnboarding: Task.Component.Onboarding = ({
         </div>
         
         <div className="mb-4 animate-task-slide-in" style={{ animationDelay: '100ms' }}>
-          <p className="text-(--task-text-secondary)">
+          <p id="onboarding-description" className="text-(--task-text-secondary)">
             {allStepsCompleted 
-              ? "Parabéns! Você completou todos os passos do tutorial." 
-              : "Siga estes passos para começar a usar o aplicativo de tarefas."}
+              ? "Congratulations! You have completed all steps of the tutorial." 
+              : "Follow these steps to start using the task application."}
           </p>
         </div>
         
@@ -69,7 +74,7 @@ const TaskOnboarding: Task.Component.Onboarding = ({
                     onCreateGroup();
                   } else if (step.step === 'add-task') {
                     onAddSampleTask();
-                  } else {
+                  } else if (step.step === 'complete-task' || step.step === 'organize-tasks' || step.step === 'create-more-groups') {
                     onCompleteStep(step.step);
                   }
                 }}
@@ -81,9 +86,10 @@ const TaskOnboarding: Task.Component.Onboarding = ({
         <div className="pt-4 border-t border-(--task-border) flex justify-end animate-task-slide-in" style={{ animationDelay: `${150 + onboardingSteps.length * 50 + 100}ms` }}>
           <button
             onClick={onClose}
+            aria-label={allStepsCompleted ? "Close tutorial" : "Close onboarding"}
             className="px-4 py-2 bg-(--task-secondary) text-(--task-text-primary) rounded-md hover:bg-(--task-secondary-hover) transition-all duration-300 ease-in-out hover:shadow-md transform hover:-translate-y-0.5 cursor-pointer"
           >
-            {allStepsCompleted ? "Entendi" : "Fechar"}
+            {allStepsCompleted ? "Got it!" : "Close"}
           </button>
         </div>
       </div>
