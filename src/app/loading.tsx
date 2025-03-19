@@ -2,11 +2,11 @@ import { useInjectComponent } from "@brushy/di";
 import { 
   HEADER, 
   LAYOUT, 
-  TASK_GRID, 
   LOADING_EFFECT, 
   LOADING_BUTTON_SKELETON 
 } from "@/core";
 import {
+  TASK_GRID, 
   TASK_LIST_SKELETON,
   TASK_SELECTOR_SKELETON
 } from "@/feature/task/index";
@@ -23,7 +23,7 @@ export default function TaskLoading() {
   return (
     <Layout>
       <Header 
-        title="Minhas Tarefas" 
+        title="My Tasks" 
         rightContent={<LoadingButtonSkeleton />} 
       />
       <LoadingEffect>
