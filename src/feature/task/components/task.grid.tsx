@@ -1,3 +1,5 @@
+import React from 'react';
+
 const TaskGrid: React.FC<Core.Component.TaskGridProps> = ({ sidebarContent, mainContent }) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-4 md:gap-6">

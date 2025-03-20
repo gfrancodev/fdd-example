@@ -1,5 +1,5 @@
 import { useInjectComponent } from "@brushy/di";
-import { BUTTON, INPUT } from "../../../core";
+import { BUTTON, INPUT, Show } from "@/core";
 import { X, Check } from "lucide-react";
 
 const TaskCreator: Task.Component.GroupCreator = ({ 
@@ -58,14 +58,14 @@ const TaskCreator: Task.Component.GroupCreator = ({
               aria-invalid={groupName.trim().length === 0}
               aria-describedby="group-name-error"
             />
-            {groupName.trim().length === 0 && (
+            <Show when={groupName.trim().length === 0}>
               <p 
                 id="group-name-error"
                 className="text-(--task-text-secondary) text-sm mt-2"
               >
                 Please enter a name for the group.
               </p>
-            )}
+            </Show>
           </div>
           <div className="flex justify-center gap-4">
             <Button

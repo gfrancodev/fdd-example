@@ -1,5 +1,5 @@
 import { useInjectComponent } from "@brushy/di";
-import { INPUT } from "../../../core";
+import { INPUT, Show } from "@/core";
 import { Plus } from "lucide-react";
 
 const TaskInput: Task.Component.Input = ({
@@ -47,11 +47,11 @@ const TaskInput: Task.Component.Input = ({
           aria-describedby="task-input-error"
         />
       </form>
-      {!value.trim() && (
+      <Show when={!value.trim()}>
         <p id="task-input-error" className="text-(--task-text-secondary) text-sm mt-2">
           Please enter a task.
         </p>
-      )}
+      </Show>
     </div>
   );
 };

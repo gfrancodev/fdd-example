@@ -86,6 +86,51 @@ declare global {
 
       type LoadingButtonSkeleton =
         React.ComponentType<LoadingButtonSkeletonProps>;
+
+      type IfProps = {
+        condition: boolean;
+        children: React.ReactNode;
+        fallback?: React.ReactNode;
+      } & React.JSX.IntrinsicAttributes;
+
+      type If = React.ComponentType<IfProps>;
+
+      type ForProps<T> = {
+        each: T[];
+        children: (item: T, index: number) => React.ReactNode;
+        fallback?: React.ReactNode;
+      } & React.JSX.IntrinsicAttributes;
+
+      type For = React.ComponentType<ForProps<any>>;
+
+      type ShowProps = {
+        when: boolean;
+        children: React.ReactNode;
+        fallback?: React.ReactNode;
+      } & React.JSX.IntrinsicAttributes;
+
+      type Show = React.ComponentType<ShowProps>;
+
+      type CaseProps = {
+        condition: boolean;
+        children: React.ReactNode;
+      } & React.JSX.IntrinsicAttributes;
+
+      type Case = React.ComponentType<CaseProps>;
+
+      type SwitchProps = {
+        children: React.ReactNode;
+        fallback?: React.ReactNode;
+      } & React.JSX.IntrinsicAttributes;
+
+      type Switch = React.ComponentType<SwitchProps>;
+
+      type ErrorBoundaryProps = {
+        children: React.ReactNode;
+        fallback: React.ReactNode | ((error: Error) => React.ReactNode);
+      } & React.JSX.IntrinsicAttributes;
+
+      type ErrorBoundary = React.ComponentType<ErrorBoundaryProps>;
     }
   }
 }

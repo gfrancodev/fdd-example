@@ -1,6 +1,7 @@
 import { X } from "lucide-react";
 import { useInjectComponent } from "@brushy/di";
 import { TASK_ONBOARDING_ITEM } from "../index";
+import { If, Show, For } from "@/core";
 
 const TaskOnboarding: Task.Component.Onboarding = ({
   isVisible,
@@ -52,35 +53,40 @@ const TaskOnboarding: Task.Component.Onboarding = ({
         
         <div className="mb-4 animate-task-slide-in" style={{ animationDelay: '100ms' }}>
           <p id="onboarding-description" className="text-(--task-text-secondary)">
-            {allStepsCompleted 
-              ? "Congratulations! You have completed all steps of the tutorial." 
-              : "Follow these steps to start using the task application."}
+            <Show 
+              when={allStepsCompleted}
+              fallback="Follow these steps to start using the task application."
+            >
+              Congratulations! You have completed all steps of the tutorial.
+            </Show>
           </p>
         </div>
         
         <div className="space-y-1 mb-4">
-          {onboardingSteps.map((step, index) => (
-            <div key={step.step} className="animate-task-slide-in" style={{ animationDelay: `${150 + index * 50}ms` }}>
-              <TaskOnboardingItem
-                step={step.step}
-                title={step.title}
-                description={step.description}
-                isActive={currentStep === step.step}
-                isCompleted={completedSteps.includes(step.step)}
-                isOpen={expandedStep === step.step}
-                onToggle={() => onToggleStep(step.step)}
-                onClick={() => {
-                  if (step.step === 'create-group') {
-                    onCreateGroup();
-                  } else if (step.step === 'add-task') {
-                    onAddSampleTask();
-                  } else if (step.step === 'complete-task' || step.step === 'organize-tasks' || step.step === 'create-more-groups') {
-                    onCompleteStep(step.step);
-                  }
-                }}
-              />
-            </div>
-          ))}
+          <For each={onboardingSteps}>
+            {(step, index) => (
+              <div key={step.step} className="animate-task-slide-in" style={{ animationDelay: `${150 + index * 50}ms` }}>
+                <TaskOnboardingItem
+                  step={step.step}
+                  title={step.title}
+                  description={step.description}
+                  isActive={currentStep === step.step}
+                  isCompleted={completedSteps.includes(step.step)}
+                  isOpen={expandedStep === step.step}
+                  onToggle={() => onToggleStep(step.step)}
+                  onClick={() => {
+                    if (step.step === 'create-group') {
+                      onCreateGroup();
+                    } else if (step.step === 'add-task') {
+                      onAddSampleTask();
+                    } else if (step.step === 'complete-task' || step.step === 'organize-tasks' || step.step === 'create-more-groups') {
+                      onCompleteStep(step.step);
+                    }
+                  }}
+                />
+              </div>
+            )}
+          </For>
         </div>
         
         <div className="pt-4 border-t border-(--task-border) flex justify-end animate-task-slide-in" style={{ animationDelay: `${150 + onboardingSteps.length * 50 + 100}ms` }}>
@@ -89,7 +95,9 @@ const TaskOnboarding: Task.Component.Onboarding = ({
             aria-label={allStepsCompleted ? "Close tutorial" : "Close onboarding"}
             className="px-4 py-2 bg-(--task-secondary) text-(--task-text-primary) rounded-md hover:bg-(--task-secondary-hover) transition-all duration-300 ease-in-out hover:shadow-md transform hover:-translate-y-0.5 cursor-pointer"
           >
-            {allStepsCompleted ? "Got it!" : "Close"}
+            <Show when={allStepsCompleted} fallback="Close">
+              Got it!
+            </Show>
           </button>
         </div>
       </div>

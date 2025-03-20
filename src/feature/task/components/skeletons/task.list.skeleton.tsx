@@ -1,5 +1,5 @@
 import { useInjectComponent } from "@brushy/di";
-import { LOADING_PLACEHOLDER } from "@/core";
+import { LOADING_PLACEHOLDER, For } from "@/core";
 
 const TaskListSkeleton = () => {
   const LoadingPlaceholder = useInjectComponent<Core.Component.LoadingPlaceholderProps>(LOADING_PLACEHOLDER);
@@ -25,15 +25,17 @@ const TaskListSkeleton = () => {
 
         <div className="py-4 px-6">
           <div className="space-y-3 mb-6">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="flex items-center justify-between p-2">
-                <div className="flex items-center gap-3 w-full">
-                  <LoadingPlaceholder className="h-5 w-5 rounded-full" />
-                  <LoadingPlaceholder className="h-5 w-3/4" />
+            <For each={[1, 2, 3]}>
+              {(i) => (
+                <div key={i} className="flex items-center justify-between p-2">
+                  <div className="flex items-center gap-3 w-full">
+                    <LoadingPlaceholder className="h-5 w-5 rounded-full" />
+                    <LoadingPlaceholder className="h-5 w-3/4" />
+                  </div>
+                  <LoadingPlaceholder className="h-5 w-5" />
                 </div>
-                <LoadingPlaceholder className="h-5 w-5" />
-              </div>
-            ))}
+              )}
+            </For>
           </div>
 
           <div>
@@ -42,15 +44,17 @@ const TaskListSkeleton = () => {
               <LoadingPlaceholder className="h-4 w-24" />
             </div>
             <div className="space-y-3">
-              {[1, 2].map((i) => (
-                <div key={i} className="flex items-center justify-between p-2 bg-(--task-secondary) rounded-md">
-                  <div className="flex items-center gap-3 w-full">
-                    <LoadingPlaceholder className="h-5 w-5 rounded-full" />
-                    <LoadingPlaceholder className="h-5 w-3/4" />
+              <For each={[1, 2]}>
+                {(i) => (
+                  <div key={i} className="flex items-center justify-between p-2 bg-(--task-secondary) rounded-md">
+                    <div className="flex items-center gap-3 w-full">
+                      <LoadingPlaceholder className="h-5 w-5 rounded-full" />
+                      <LoadingPlaceholder className="h-5 w-3/4" />
+                    </div>
+                    <LoadingPlaceholder className="h-5 w-5" />
                   </div>
-                  <LoadingPlaceholder className="h-5 w-5" />
-                </div>
-              ))}
+                )}
+              </For>
             </div>
           </div>
         </div>

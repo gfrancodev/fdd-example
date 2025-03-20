@@ -13,7 +13,8 @@ import {
   LAYOUT,
   EMPTY_STATE,
   HELP_BUTTON,
-  CREATE_GROUP_BUTTON
+  CREATE_GROUP_BUTTON,
+  ErrorBoundary
 } from "@/core";
 import TaskLoading from "./loading";
 
@@ -75,64 +76,66 @@ export default function TaskPage() {
   }
 
   return (
-    <Suspense fallback={<TaskLoading />}>
-      <Layout>
-        <Header
-          title="My Tasks"
-          rightContent={<HelpButton onClick={showOnboardingTutorial} />}
-        />
-
-        <TaskGrid
-          sidebarContent={
-            <TaskSelector
-              groups={groups}
-              selectedGroupId={selectedGroupId}
-              onSelectGroup={selectTaskGroup}
-              onDeleteGroup={deleteTaskGroup}
-              onCreateGroup={handleCreateGroup}
-              hoveredGroupId={hoveredGroupId}
-              deletingGroupId={deletingGroupId}
-              onGroupMouseEnter={handleGroupMouseEnter}
-              onGroupMouseLeave={handleGroupMouseLeave}
-            />
-          }
-          mainContent={
-            selectedGroup && taskListProps ? (
-              <TaskList {...taskListProps} />
-            ) : (
-              <EmptyState
-                message="Você ainda não tem nenhum grupo de tarefas."
-                action={<CreateGroupButton onClick={showOnboardingTutorial} />}
-              />
-            )
-          }
-        />
-
-        {showGroupCreator && (
-          <TaskCreator
-            groupName={newGroupName}
-            onGroupNameChange={handleGroupNameChange}
-            onSubmit={handleSubmitGroup}
-            onClose={handleCloseGroupCreator}
-            isSubmitEnabled={isSubmitEnabled}
-            onKeyDown={handleCreatorKeyDown}
+    <ErrorBoundary fallback={<div className="p-8 text-center">Something went wrong. Please try again.</div>}>
+      <Suspense fallback={<TaskLoading />}>
+        <Layout>
+          <Header
+            title="My Tasks"
+            rightContent={<HelpButton onClick={showOnboardingTutorial} />}
           />
-        )}
 
-        <TaskOnboarding
-          isVisible={onboarding.showOnboarding}
-          onboardingSteps={onboardingSteps}
-          currentStep={onboarding.currentStep}
-          completedSteps={onboarding.completed}
-          expandedStep={expandedStep}
-          onToggleStep={handleToggleStep}
-          onClose={closeOnboarding}
-          onCompleteStep={completeOnboardingStep}
-          onCreateGroup={handleCreateGroup}
-          onAddSampleTask={handleAddSampleTask}
-          onKeyDown={handleOnboardingKeyDown}
-        />
-      </Layout>
-    </Suspense>
+          <TaskGrid
+            sidebarContent={
+              <TaskSelector
+                groups={groups}
+                selectedGroupId={selectedGroupId}
+                onSelectGroup={selectTaskGroup}
+                onDeleteGroup={deleteTaskGroup}
+                onCreateGroup={handleCreateGroup}
+                hoveredGroupId={hoveredGroupId}
+                deletingGroupId={deletingGroupId}
+                onGroupMouseEnter={handleGroupMouseEnter}
+                onGroupMouseLeave={handleGroupMouseLeave}
+              />
+            }
+            mainContent={
+              selectedGroup && taskListProps ? (
+                <TaskList {...taskListProps} />
+              ) : (
+                <EmptyState
+                  message="Você ainda não tem nenhum grupo de tarefas."
+                  action={<CreateGroupButton onClick={showOnboardingTutorial} />}
+                />
+              )
+            }
+          />
+
+          {showGroupCreator && (
+            <TaskCreator
+              groupName={newGroupName}
+              onGroupNameChange={handleGroupNameChange}
+              onSubmit={handleSubmitGroup}
+              onClose={handleCloseGroupCreator}
+              isSubmitEnabled={isSubmitEnabled}
+              onKeyDown={handleCreatorKeyDown}
+            />
+          )}
+
+          <TaskOnboarding
+            isVisible={onboarding.showOnboarding}
+            onboardingSteps={onboardingSteps}
+            currentStep={onboarding.currentStep}
+            completedSteps={onboarding.completed}
+            expandedStep={expandedStep}
+            onToggleStep={handleToggleStep}
+            onClose={closeOnboarding}
+            onCompleteStep={completeOnboardingStep}
+            onCreateGroup={handleCreateGroup}
+            onAddSampleTask={handleAddSampleTask}
+            onKeyDown={handleOnboardingKeyDown}
+          />
+        </Layout>
+      </Suspense>
+    </ErrorBoundary>
   );
 }

@@ -1,4 +1,5 @@
 import { Check, Trash2 } from "lucide-react";
+import { If, Show } from "@/core";
 
 const TaskItem: Task.Component.ListItem = ({
   task,
@@ -31,7 +32,9 @@ const TaskItem: Task.Component.ListItem = ({
           transition-colors duration-200 cursor-pointer`}
           aria-label={task.completed ? "Mark as not completed" : "Mark as completed"}
         >
-          {task.completed && <Check className="h-3 w-3 animate-task-check" />}
+          <If condition={task.completed}>
+            <Check className="h-3 w-3 animate-task-check" />
+          </If>
         </button>
         <span 
           className={`${task.completed ? 'text-(--task-text-placeholder) line-through animate-task-strike' : 'text-(--task-text-primary)'} 
@@ -40,15 +43,17 @@ const TaskItem: Task.Component.ListItem = ({
           {task.text}
         </span>
       </div>
-      <button
-        onClick={() => onDelete(task.id)}
-        className={`h-8 w-8 rounded-md flex items-center justify-center text-(--task-text-placeholder) 
-        hover:text-(--task-error) hover:bg-(--task-error/10) ${isHovered ? 'opacity-100 animate-task-fade-in' : 'opacity-0'} 
-        transition-all duration-200 cursor-pointer`}
-        aria-label="Delete task"
-      >
-        <Trash2 className="h-4 w-4 animate-task-trash" />
-      </button>
+      <Show when={isHovered}>
+        <button
+          onClick={() => onDelete(task.id)}
+          className="h-8 w-8 rounded-md flex items-center justify-center text-(--task-text-placeholder) 
+          hover:text-(--task-error) hover:bg-(--task-error/10) opacity-100 animate-task-fade-in
+          transition-all duration-200 cursor-pointer"
+          aria-label="Delete task"
+        >
+          <Trash2 className="h-4 w-4 animate-task-trash" />
+        </button>
+      </Show>
     </div>
   );
 };
