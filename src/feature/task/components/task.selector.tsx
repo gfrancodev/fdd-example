@@ -18,7 +18,7 @@ const TaskSelector: Task.Component.GroupSelector = ({
         <h2 className="text-lg font-medium text-(--task-text-primary)">My Groups</h2>
         <button 
           onClick={onCreateGroup}
-          className="h-8 w-8 rounded-md flex items-center justify-center text-(--task-primary) hover:bg-(--task-secondary) transition-colors duration-300"
+          className="h-8 w-8 rounded-md flex items-center justify-center text-(--task-primary) hover:bg-(--task-secondary) transition-colors duration-300 cursor-pointer"
           aria-label="Create new group"
         >
           <Plus className="h-5 w-5" aria-hidden="true" />
