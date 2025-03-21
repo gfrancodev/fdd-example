@@ -71,4 +71,4 @@ npm start
 npm run build
 ```
 
-Author: Gustavo Franco ([gfranocdev](https://github.com/gfranocdev))
+Author: Gustavo Franco ([gfrancodev](https://github.com/gfrancodev))
